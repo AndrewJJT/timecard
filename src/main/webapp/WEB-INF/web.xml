@@ -5,6 +5,8 @@
 	id="WebApp_ID" version="3.1">
 
 	<display-name>drstrange-timecard-portal</display-name>
+	
+	<!-- front controller to handle different url -->
 
 
 </web-app>
