@@ -1,13 +1,24 @@
 package com.skillstrom.services;
 
+import java.util.List;
+
+import com.skillstrom.data.TimeSheet;
 import com.skillstrom.data.TimeSheetDAO;
 import com.skillstrom.data.User;
 
-public class UserService {
+public class Service {
 	
 	TimeSheetDAO timeSheetDao = new TimeSheetDAO();
 	
 	public User getUser(String inputUserName, String inputUserPassword)  {
 		return timeSheetDao.findUserByUserNameAndPassword(inputUserName, inputUserPassword);
+	}
+	
+	public List<TimeSheet> getUserTimeSheet(int Id){
+		return timeSheetDao.findByTimeSheetByUserId(Id);
+	}
+	
+	public TimeSheet addTimeSheet(TimeSheet newTimeSheet) {
+		return timeSheetDao.saveOrSubmit(newTimeSheet);
 	}
 }

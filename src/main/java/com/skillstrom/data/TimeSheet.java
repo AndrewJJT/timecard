@@ -1,5 +1,7 @@
 package com.skillstrom.data;
 
+import java.util.Date;
+
 public class TimeSheet {
 	private int Id;
 	private double MondayHours;
@@ -9,6 +11,7 @@ public class TimeSheet {
 	private double FridayHours;
 	private double SaturdayHours;
 	private double SundayHours;
+	private Date WeekEndingOn;
 	private int UserId;
 	private int StatusId;
 	
@@ -17,8 +20,11 @@ public class TimeSheet {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	public TimeSheet(int id, double mondayHours, double tuesdayHours, double wednesdayHours, double thursdayHours,
-			double fridayHours, double saturdayHours, double sundayHours, int userId, int statusId) {
+			double fridayHours, double saturdayHours, double sundayHours, Date weekEndingOn, int userId,
+			int statusId) {
 		super();
 		Id = id;
 		MondayHours = mondayHours;
@@ -28,9 +34,12 @@ public class TimeSheet {
 		FridayHours = fridayHours;
 		SaturdayHours = saturdayHours;
 		SundayHours = sundayHours;
+		WeekEndingOn = weekEndingOn;
 		UserId = userId;
 		StatusId = statusId;
 	}
+
+
 
 	public int getId() {
 		return Id;
@@ -111,6 +120,29 @@ public class TimeSheet {
 	public void setStatusId(int statusId) {
 		StatusId = statusId;
 	}
+
+
+
+	public Date getWeekEndingOn() {
+		return WeekEndingOn;
+	}
+
+
+
+	public void setWeekEndingOn(Date weekEndingOn) {
+		WeekEndingOn = weekEndingOn;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "TimeSheet [Id=" + Id + ", MondayHours=" + MondayHours + ", TuesdayHours=" + TuesdayHours
+				+ ", WednesdayHours=" + WednesdayHours + ", ThursdayHours=" + ThursdayHours + ", FridayHours="
+				+ FridayHours + ", SaturdayHours=" + SaturdayHours + ", SundayHours=" + SundayHours + ", WeekEndingOn="
+				+ WeekEndingOn + ", UserId=" + UserId + ", StatusId=" + StatusId + "]";
+	}
+	
 	
 	
 }
