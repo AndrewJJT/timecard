@@ -1,7 +1,7 @@
 package com.skillstrom.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,35 +13,25 @@ import com.skillstrom.controllers.UserController;
 public class DispatchServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	
 			dispatch(req, resp);
-	
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 			dispatch(req, resp);
-	
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-	
 			dispatch(req, resp);
-
 	}
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 			dispatch(req, resp);
 	}
 	
-	
-	UserController UserControll = new UserController();
+	private UserController UserControll = new UserController();
 	
 	public void dispatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO
@@ -50,7 +40,7 @@ public class DispatchServlet extends HttpServlet {
 			case "/drstrange/main/login":
 				// user
 			if (req.getMethod().equals("POST")) {
-				 System.out.println("Dispatching..."); 
+				System.out.println("Dispatching..."); 
 				UserControll.getUser(req, resp);
 				return;
 			}
@@ -59,7 +49,7 @@ public class DispatchServlet extends HttpServlet {
 				return;
 			}
 			if (req.getMethod().equals("GET")) {
-				// do something here
+				UserControll.getUserTimeSheets(req, resp);
 				return;
 			}
 			if (req.getMethod().equals("DELETE")) {

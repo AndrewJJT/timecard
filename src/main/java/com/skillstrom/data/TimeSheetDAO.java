@@ -3,9 +3,9 @@ package com.skillstrom.data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +17,7 @@ public class TimeSheetDAO {
 //	
 //	public TImesheet save(Timesheet t) {}
 	public Connection getConnection()  {
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/timecard", "root", "root");
@@ -31,20 +32,29 @@ public class TimeSheetDAO {
 	public User findUserByUserNameAndPassword(String inputUserName, String inputPassword)  {
 		
 		User foundUser = new User();
-		System.out.println("created foundUser object");
+		System.out.println("in CRUD method...");
 		// TODO write logic for get user back AND think of if user should bring back list of timesheet
 		Connection conn = getConnection();
 		
 		PreparedStatement stmt;
 		try {
-			stmt = conn.prepareStatement("Select * from user where username = ? AND password = ?");
+			stmt = conn.prepareStatement("Select * from user where UserName = ? AND UserPassword = ?");
 			stmt.setString(1, inputUserName);
 			stmt.setString(2, inputPassword);
 			ResultSet searchResult = stmt.executeQuery();
-			searchResult.next();
-			while(searchResult.next()) {
+//			System.out.println(searchResult.next());
+			
+			if(searchResult.next()) {
+				System.out.println("while true...");
+//				searchResult.next();
+				while(searchResult.next()) {
 				foundUser = new User(searchResult.getInt("UserId"), searchResult.getString("Fname"), searchResult.getString("Lname"),
 						searchResult.getString("UserName"), searchResult.getString("Password"), searchResult.getInt("RoleId"));
+				}
+			}
+			else {
+				System.out.println("while false...");
+				foundUser = null;
 			}
 			
 		} catch (SQLException e) {
@@ -56,7 +66,7 @@ public class TimeSheetDAO {
 				throw new RuntimeException(e);
 			}
 		}
-				
+		System.out.println(foundUser);	
 		return foundUser;
 	}
 

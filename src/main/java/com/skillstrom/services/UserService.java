@@ -1,7 +1,5 @@
 package com.skillstrom.services;
 
-import java.sql.SQLException;
-
 import com.skillstrom.data.TimeSheetDAO;
 import com.skillstrom.data.User;
 

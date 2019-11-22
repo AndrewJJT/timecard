@@ -1,11 +1,11 @@
 package com.skillstrom.controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.skillstrom.data.User;
 import com.skillstrom.services.UserService;
 
 public class UserController {
@@ -16,10 +16,18 @@ public class UserController {
 		System.out.println("Running controller....");
 		String inputfname = req.getParameter("firstname");
 		String inputlname = req.getParameter("lastname");
-		if (userService.getUser(inputfname, inputlname) != null) {
-			resp.sendRedirect("/drstrange/main/login.html");
+		User foundUser = userService.getUser(inputfname, inputlname);
+		if (foundUser!= null) {
+			req.getSession().setAttribute("userInfo", foundUser);
+			resp.sendRedirect("/drstrange/login.html");
+		}
+		else {
+			resp.sendRedirect("/drstrange");
 		}
 		
-
+	}
+	
+	public void getUserTimeSheets(HttpServletRequest req, HttpServletResponse resp) {
+		//TODO
 	}
 }
