@@ -19,6 +19,11 @@ public class Service {
 	}
 	
 	public TimeSheet addTimeSheet(TimeSheet newTimeSheet) {
+		System.out.println("in service");
 		return timeSheetDao.saveOrSubmit(newTimeSheet);
+	}
+	
+	public void deleteTimeSheet(int timeSheetId) {
+		timeSheetDao.deleteTimeSheet(timeSheetId);
 	}
 }

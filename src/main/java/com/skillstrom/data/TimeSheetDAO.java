@@ -94,11 +94,12 @@ public class TimeSheetDAO {
 	}
 
 	public TimeSheet saveOrSubmit (TimeSheet newTimeSheet) {
-		
+		System.out.println(newTimeSheet);
 		Connection conn = getConnection();
 		// what columns are returned in ResultSet when I call stmt.getGeneratedKeys
 		PreparedStatement stmt;
 		try {
+			System.out.println("in saveOrSubmit CRUD");
 			stmt = conn.prepareStatement("Insert into timesheet(MondayHours,TuesdayHours,WednesdayHours,ThursdayHours,FridayHours,SaturdayHours,SundayHours,WeekEndingAt,StatusId,UserId) Values(?,?,?,?,?,?,?,?,?,?)", new String[] {"timesheetId"});
 			stmt.setDouble(1, newTimeSheet.getMondayHours());
 			stmt.setDouble(2, newTimeSheet.getTuesdayHours());
@@ -107,7 +108,7 @@ public class TimeSheetDAO {
 			stmt.setDouble(5, newTimeSheet.getFridayHours());
 			stmt.setDouble(6, newTimeSheet.getSaturdayHours());
 			stmt.setDouble(7, newTimeSheet.getSundayHours());
-			stmt.setDate(8, (Date) newTimeSheet.getWeekEndingOn());
+			stmt.setDate(8, newTimeSheet.getWeekEndingOn());
 			stmt.setInt(9, newTimeSheet.getStatusId());
 			stmt.setInt(10, newTimeSheet.getUserId());
 			stmt.executeUpdate();
@@ -134,6 +135,33 @@ public class TimeSheetDAO {
 		return newTimeSheet;
 	}
 	
+	// delete timesheet
+	public void deleteTimeSheet(int id){
+		String sql = "Delete from timesheet where  timesheetId= ?";
+		Connection conn = getConnection();
+		try{
+		conn.setAutoCommit(false);	
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, id);
+		
+		int rowsaffected = stmt.executeUpdate();
+		
+		conn.commit(); //where change take place permanently 
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}finally {
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		
+	}
 	/**
 	public List<Artist> findAll() throws SQLException{
 		Connection conn = getConnection();
@@ -177,23 +205,6 @@ public class TimeSheetDAO {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
-	public void delete(int id) throws SQLException{
-		String sql = "Delete from artist where artistid = ?";
-		Connection conn = getConnection();
-		
-		conn.setAutoCommit(false);	
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		
-		stmt.setInt(1, id);
-		
-		int rowsaffected = stmt.executeUpdate();
-		
-		conn.commit(); //where change take place permanently 
-		
-		conn.close();
-		
-	}
 	
 	**/
 }

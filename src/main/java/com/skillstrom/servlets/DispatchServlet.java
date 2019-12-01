@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mysql.cj.Session;
 import com.skillstrom.controllers.TimeSheetControllers;
 import com.skillstrom.controllers.UserController;
 
@@ -39,24 +40,29 @@ public class DispatchServlet extends HttpServlet {
 		System.out.println("Dispatching..."); 
 		String uri = req.getRequestURI();
 		switch(uri) {
+			case "/drstrange/main/logout":
+				if(req.getMethod().equals("GET")) {
+					UserControll.logoutUser(req, resp);
+					return;
+				}
 			case "/drstrange/main/login":
 				// user
-			if (req.getMethod().equals("POST")) {
-				UserControll.getUser(req, resp);
-				return;
-			}
-			if (req.getMethod().equals("PUT")) {
+				if (req.getMethod().equals("POST")) {
+					UserControll.getUser(req, resp);
+					return;
+				}
+				if (req.getMethod().equals("PUT")) {
 				// do something here
-				return;
-			}
-			if (req.getMethod().equals("GET")) {
-				UserControll.getUserTimeSheets(req, resp);
-				return;
-			}
-			if (req.getMethod().equals("DELETE")) {
+					return;
+				}
+				if (req.getMethod().equals("GET")) {
+					UserControll.getUserInfo(req, resp);
+					return;
+				}
+				if (req.getMethod().equals("DELETE")) {
 				// do something here
-				return;
-			}
+					return;
+				}
 			
 			case "/drstrange/main/timesheet":
 				if (req.getMethod().equals("POST")) {
@@ -68,11 +74,11 @@ public class DispatchServlet extends HttpServlet {
 					return;
 				}
 				if (req.getMethod().equals("GET")) {
-					// TODO
+					TimeSheetControll.getUserTimeSheets(req, resp);
 					return;
 				}
 				if (req.getMethod().equals("DELETE")) {
-					// TODO
+					TimeSheetControll.deleteTimeSheet(req, resp);
 					return;
 				}
 		default:

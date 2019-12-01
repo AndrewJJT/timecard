@@ -7,71 +7,89 @@
 <style>
 		.container {
 			margin: auto;
-			width: 80%;
+			width: 90%;
 		}
-		</style>
+		#logoutbut{
+			margin-left: 50%;
+			display:inline-block;
+		}
+		#nav{
+			vertical-align:top;
+		}
+		h3 {
+			display:inline-block;
+		}
+</style>
 
 </head>
 <body>
 	<div class="container">
+		<div id="nav">
+			<h3>Welcome! <span id="username"></span></h3>
+			<form id="logoutbut" action="/drstrange/main/logout" method="GET">
+				<input type="submit" value="LOGOUT">
+			</form>
+		</div>
 		<p>Create New Time Sheet</p>
-		<form action="" method="post">
+		<form >
+			
 			<div class="form-group row">
 				<label for="example-date-input" class="col-2 col-form-label">Week Ending On: </label>
 				<div class="col-3">
-					<input class="form-control" type="date" placeholder="Week Ending on">
+					<input class="form-control" type="date"name="weekendingon" id="weekendingon" placeholder="Week Ending on">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-1">
 					<label for="">Monday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="mondayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Tuesday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="tuesdayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Wednesday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="wednesdayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Thursday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="thursdayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Friday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="fridayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Saturday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="saturdayhours" class="form-control" placeholder="Hours">
 				
 			</div>
 			<div class="form-group col-1">
 					<label for="">Sunday</label>
-					<input type="number" class="form-control" placeholder="Hours">
+					<input type="number" id="sundayhours" class="form-control" placeholder="Hours">
 				</div>
 			</div>
 			
-			<div class="form-group">
+			<div id="addtimesheet" class="form-group">
 				<div class="form-row">
 					<div class="form-group">
-							<input id="save" type="submit" value="Save"/>
+							<input id="1" type="submit" value="Save"/>
 					</div>
 					<div class="form-group">
-							<input id="submit" type="submit" value="Submit"/>
+							<input id="2" type="submit" value="Submit"/>
 					</div>
 				</div>
 			</div>
 		</form>
-		LOGGED In!
-		<button id="gettimesheet">Get Time Sheet!</button>
+		<div>
+			<h4>Please See Below For All Your Time Cards:</h4>
+		</div>
 		<div id="table"></div>
 	</div>
 </body>
