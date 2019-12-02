@@ -135,6 +135,42 @@ public class TimeSheetDAO {
 		return newTimeSheet;
 	}
 	
+	
+	public void updateTimeSheet(TimeSheet timesheet) {
+		String sql = "update timesheet set MondayHours = ?,TuesdayHours = ? ,WednesdayHours = ? ,ThursdayHours = ?,FridayHours = ? ,SaturdayHours =? ,SundayHours =? ,WeekEndingAt =? ,StatusId =? ,UserId = ? where timesheetId = ?";
+		Connection conn = getConnection();
+		try {
+			conn.setAutoCommit(false);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, timesheet.getMondayHours());
+			stmt.setDouble(2, timesheet.getTuesdayHours());
+			stmt.setDouble(3, timesheet.getWednesdayHours());
+			stmt.setDouble(4, timesheet.getThursdayHours());
+			stmt.setDouble(5, timesheet.getFridayHours());
+			stmt.setDouble(6, timesheet.getSaturdayHours());
+			stmt.setDouble(7, timesheet.getSundayHours());
+			stmt.setDate(8, timesheet.getWeekEndingOn());
+			stmt.setInt(9, timesheet.getStatusId());
+			stmt.setInt(10, timesheet.getUserId());
+			stmt.setInt(11, timesheet.getId());
+			stmt.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				throw new RuntimeException(e1);
+			}
+			throw new RuntimeException(e);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+	
 	// delete timesheet
 	public void deleteTimeSheet(int id){
 		String sql = "Delete from timesheet where  timesheetId= ?";
@@ -162,22 +198,36 @@ public class TimeSheetDAO {
 
 		
 	}
-	/**
-	public List<Artist> findAll() throws SQLException{
-		Connection conn = getConnection();
 	
-		ResultSet results = conn.prepareStatement("Select * from artist").executeQuery();
-		List<Artist> artResults = new LinkedList<>();
-		while(results.next()) {
-			Artist newartist = new Artist (results.getInt("artistId"), results.getString("name"));
-			artResults.add(newartist);
-		}
+	public TimeSheet getOneTimeSheet(int id) {
+		TimeSheet theTimeSheet = new TimeSheet();
+		Connection conn = getConnection();
+		try{
+		PreparedStatement stmt = conn.prepareStatement("select * from timesheet where timesheetid = ?");
+		stmt.setInt(1, id);
 		
-		conn.close();
-		return artResults;
+		ResultSet result = stmt.executeQuery();
+
+		while(result.next()) {
+			theTimeSheet = new TimeSheet (result.getInt("TimeSheetId"), result.getDouble("MondayHours"), result.getDouble("TuesdayHours"), 
+					result.getDouble("WednesdayHours"), result.getDouble("ThursdayHours"), result.getDouble("FridayHours"), 
+					result.getDouble("SaturdayHours"), result.getDouble("SundayHours"), result.getDate("WeekEndingAt"), result.getInt("UserId"), result.getInt("StatusId"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}finally {
+			
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return theTimeSheet;
 		
 	}
 	
+	/**
 	public Set<Artist> searchByName (String search) throws SQLException{
 		Connection conn = getConnection();
 		

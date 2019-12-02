@@ -39,7 +39,25 @@ public class DispatchServlet extends HttpServlet {
 		// TODO
 		System.out.println("Dispatching..."); 
 		String uri = req.getRequestURI();
+		System.out.println(uri);
 		switch(uri) {
+			case "/drstrange/main/update":
+				if (req.getMethod().equals("POST")) {
+					System.out.println("in main/update post");
+					TimeSheetControll.updateTimeSheet(req, resp);
+					return;
+				}
+			case "/drstrange/main/edit":
+				if (req.getMethod().equals("GET")) {
+					System.out.println("in main/edit get...");
+					TimeSheetControll.getTimeSheetToMod(req, resp);
+					return;
+				}
+				if (req.getMethod().equals("POST")) {
+					System.out.println("in main/edit post...");
+					TimeSheetControll.redirectToModTimeSheet(req, resp);
+					return;
+				}
 			case "/drstrange/main/logout":
 				if(req.getMethod().equals("GET")) {
 					UserControll.logoutUser(req, resp);

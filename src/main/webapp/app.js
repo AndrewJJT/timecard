@@ -85,18 +85,45 @@ document.getElementById('addtimesheet').addEventListener('click', function(e){
         td_weekendingon.innerText = weekingondate
         let td_action = document.createElement('td')
         if(i.statusId == 1){
-            let edit = document.createElement('button')
-            edit.innerHTML="Edit"
-            td_action.appendChild(edit)
-            let submit = document.createElement('button')
-            submit.setAttribute('type','submit')
-            submit.innerText = 'Submit'
-            td_action.appendChild(submit)
+            // create form for edit -- start 
+            let form_edit = document.createElement('form')
+            form_edit.setAttribute('method', 'POST')
+            form_edit.setAttribute('action', '/drstrange/main/edit')
+
+            let id = document.createElement('input')
+            id.hidden = true
+            id.setAttribute('value',i.id)
+            id.setAttribute('name','timesheetid')
+
+            let edit = document.createElement('input')
+            edit.setAttribute('class','btn btn-primary')
+            edit.setAttribute('type',"submit")
+            edit.setAttribute('value','Edit')
+
+            form_edit.appendChild(id)
+            form_edit.appendChild(edit)
+            // form for edit -- end
+
+            // create form for delete--start 
+            let form_del = document.createElement('form')
+            form_del.setAttribute('id', 'deltimesheet')
+   
+            let div_formrow = document.createElement('div')
+            div_formrow.setAttribute('class', 'form-row')
+
             let del = document.createElement('button')
+            del.setAttribute('class','btn btn-danger')
             del.setAttribute('type','submit')
             del.setAttribute('id',i.id)
             del.innerText = 'Delete'
-            td_action.appendChild(del)
+
+            div_formrow.appendChild(del)
+
+            form_del.appendChild(div_formrow)
+            // end form for delete
+
+            td_action.appendChild(form_edit)
+            td_action.appendChild(form_del)
         }else{
             td_action.innerText ="Submitted! Can't be Changed!"
         }
@@ -122,8 +149,8 @@ document.getElementById('addtimesheet').addEventListener('click', function(e){
 
 // DELETE/EDIT/SUBMIT
 document.getElementById('table').addEventListener('click',function(e){
+    if(e.target.id){
         e.preventDefault()
-        if(e.target.id){
             let id = e.target.id
             let promise = axios.delete(`http://localhost:8080/drstrange/main/timesheet?timesheetid=${id}`)
             promise.then(response=>{
@@ -204,42 +231,51 @@ function createTable (timecardarray){
         let td_sun = document.createElement('td')
         td_sun.innerText = i.sundayHours
         let td_weekendingon = document.createElement('td')
-        weo = new Date(i.weekEndingOn)
-        weo2 = weo.toLocaleString()
+        let weo = new Date(i.weekEndingOn)
         let weekingondate = weo.toDateString()
         td_weekendingon.innerText = weekingondate
         let td_action = document.createElement('td')
         if(i.statusId == 1){
-            let form = document.createElement('form')
-            form.setAttribute('id', 'deltimesheet')
-   
-
-            let div_formrow = document.createElement('div')
-            div_formrow.setAttribute('class', 'form-row')
-
+            
+            // create form for edit -- start 
+            let form_edit = document.createElement('form')
+            form_edit.setAttribute('method', 'POST')
+            form_edit.setAttribute('action', '/drstrange/main/edit')
 
             let id = document.createElement('input')
             id.hidden = true
             id.setAttribute('value',i.id)
-            id.setAttribute('name','timesheetid'+i.id)
-            let edit = document.createElement('button')
-            edit.setAttribute('type','submit')
-            edit.innerText = 'Edit'
-            let submit = document.createElement('button')
-            submit.setAttribute('type','submit')
-            submit.innerText = 'Submit'
+            id.setAttribute('name','timesheetid')
+
+            let edit = document.createElement('input')
+            edit.setAttribute('class','btn btn-primary')
+            edit.setAttribute('type',"submit")
+            edit.setAttribute('value','Edit')
+
+            form_edit.appendChild(id)
+            form_edit.appendChild(edit)
+            // form for edit -- end
+
+            // create form for delete--start 
+            let form_del = document.createElement('form')
+            form_del.setAttribute('id', 'deltimesheet')
+   
+            let div_formrow = document.createElement('div')
+            div_formrow.setAttribute('class', 'form-row')
+
             let del = document.createElement('button')
+            del.setAttribute('class','btn btn-danger')
             del.setAttribute('type','submit')
             del.setAttribute('id',i.id)
             del.innerText = 'Delete'
 
-            div_formrow.appendChild(id)
-            div_formrow.appendChild(edit)
-            div_formrow.appendChild(submit)
             div_formrow.appendChild(del)
 
-            form.appendChild(div_formrow)
-            td_action.appendChild(form)
+            form_del.appendChild(div_formrow)
+            // end form for delete
+
+            td_action.appendChild(form_edit)
+            td_action.appendChild(form_del)
         }else{
             td_action.innerText ="Submitted! Can't be Changed!"
         }
